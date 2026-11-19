@@ -1,3 +1,17 @@
+
+REATE DATABASE LibraryDB;
+
+USE LibraryDB;
+
+CREATE TABLE Books (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    book_name VARCHAR(100) NOT NULL,
+    author VARCHAR(100),
+    category VARCHAR(50),
+    total_copies INT NOT NULL,
+    available_copies INT NOT NULL
+);
+
 create table users (
 	user_id int primary key auto_increment,
     user_name varchar(100) not null,
@@ -58,31 +72,48 @@ WHERE book_id = 1;
 
 COMMIT;
 
+SELECT * FROM Books;
+
+SELECT * FROM Users;
+
 SELECT
-    users.user_name,
-    books.book_name,
-    transaction.issue_date,
-    transaction.return_date
-FROM transaction
-JOIN users
-ON transaction.user_id = users.user_id
-JOIN books
-ON transaction.book_id = books.book_id
-WHERE transaction.status = 'Returned';
+    Users.user_name,
+    Books.book_name,
+    Transactions.issue_date,
+    Transactions.status
+FROM Transactions
+JOIN Users
+ON Transactions.user_id = Users.user_id
+JOIN Books
+ON Transactions.book_id = Books.book_id
+WHERE Transactions.status = 'Issued';
+
+
+SELECT
+    Users.user_name,
+    Books.book_name,
+    Transactions.issue_date,
+    Transactions.return_date
+FROM Transactions
+JOIN Users
+ON Transactions.user_id = Users.user_id
+JOIN Books
+ON Transactions.book_id = Books.book_id
+WHERE Transactions.status = 'Returned';
+
 
 SELECT book_name, author, available_copies
 FROM Books
 WHERE available_copies > 0;
 
 SELECT
-    u.user_name,
-    b.book_name,
-    t.issue_date,
-    t.return_date,
-    t.status
-FROM `transaction` t
-JOIN users u
-ON t.user_id = u.user_id
-JOIN books b
-ON t.book_id = b.book_id
-WHERE u.user_id = 1;
+    Users.user_name,
+    Books.book_name,
+    Transactions.issue_date,
+    Transactions.status
+FROM Transactions
+JOIN Users
+ON Transactions.user_id = Users.user_id
+JOIN Books
+ON Transactions.book_id = Books.book_id
+WHERE Transactions.status = 'Issued';
